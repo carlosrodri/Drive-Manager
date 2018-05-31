@@ -1,14 +1,13 @@
 package models;
 
-import java.awt.HeadlessException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.swing.JOptionPane;
+import constants.ConstantsUI;
+import controllers.Controller;
 
 public class Client extends Connection{
 
@@ -22,34 +21,52 @@ public class Client extends Connection{
 	@Override
 	void executeTask() {
 		try {
-			String[] string = readResponse().split("#");
-			switch (string[0]) {
-			case "/message":
-				showMessage(string);
+			switch (readResponse()) {
+			case ConstantsUI.FOLDER_CREATED:
+				showFolders();
 				break;
-			default:
+			case ConstantsUI.NEW_FOLDER:
+//				refresh(readResponse(), readResponse());
+//				readFile();
+				break;
+			case ConstantsUI.FILE:
+				readFile();
 				break;
 			}
+			
 		} catch (IOException e) {
 		}
 	}
 
-	private void showMessage(String[] string) {
-		if (!string[1].equals(name)) {
-			System.out.println(string + "  acacacaca");
-//			Controller.showMessage(string);
-		}else {
-			System.out.println(string + "  yoooo");
-//			Controller.showMessageMe(string);
-		}
+	private void readFile() {
+		System.out.println("leeeee jajaja");
+		saveFile();
+		Controller.refresh();
+	}
+
+	private void showFolders() {
+//		if (!string[1].equals(name)) {
+//			System.out.println(string + "  acacacaca");
+////			Controller.showMessage(string);
+//		}else {
+//			System.out.println(string + "  yoooo");
+////			Controller.showMessageMe(string);
+//		}
 	}
 
 	public void saveFile() {
 		try{
 			setInput(new DataInputStream(getSocket().getInputStream()));
-			String nameFile = getInput().readUTF().toString();
+			getInput().readUTF().toString();
+			String nameFile = readResponse();
+			File file = new File("src/datas/" + nameFile);
+			if(file.exists()) {
+				file.delete();
+				System.out.println("disponible el archivo? " + file.exists());
+			}
 			int tam = getInput().readInt();
-			FileOutputStream fos = new FileOutputStream(new File("src/datos/" + nameFile));
+			System.out.println(file + "    ruta del archivo");
+			FileOutputStream fos = new FileOutputStream(new File("src/datas/" + nameFile));
 			@SuppressWarnings("resource")
 			BufferedOutputStream out = new BufferedOutputStream(fos);
 			BufferedInputStream in = new BufferedInputStream(getSocket().getInputStream());
@@ -66,17 +83,5 @@ public class Client extends Connection{
 
 	public String getName() {
 		return name;
-	}
-	
-	public static void main(String[] args) {
-		try {
-			new Client(JOptionPane.showInputDialog("ip"), Integer.parseInt(JOptionPane.showInputDialog("Port")), JOptionPane.showInputDialog("Name"));
-		} catch (HeadlessException e) {
-			e.printStackTrace();
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

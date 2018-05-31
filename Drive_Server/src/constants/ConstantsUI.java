@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-public class Constants {
+public class ConstantsUI {
 
 //	public static final Color BACK_COLOR = Color.decode("");
 	public static final String TYPE_MESSAGE = "Type a message";
@@ -13,4 +13,11 @@ public class Constants {
 	public static final Font FONT = new Font("Comis Sans Ms", Font.BOLD, 13);
 	public static final String TITLE = "UPTC CHAT";
 	public static final Color COLOR_TF = Color.decode("#6dc4b6");
+	public static final String LIST_TITLE = "Connected list";
+	public static final Dimension DIMENSION = new Dimension(350, 600);
+	public static final String FOLDER = "CREATE_FOLDER";
+	public static final String REGISTRY = "REGISTRY";
+	public static final String NEW_FOLDER = "NF";
+	public static final String FILE = "FILE";
+	public static final String PATH = "src/datas/file";
 }

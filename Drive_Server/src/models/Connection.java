@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import constants.ConstantsUI;
+
 public abstract class Connection extends MyThread{
 
 	private Socket socket;
@@ -30,9 +32,10 @@ public abstract class Connection extends MyThread{
 		try {
 			int fileSize = (int) file.length();
 			output = new DataOutputStream(socket.getOutputStream());
-			output.writeUTF("/file#" + fileSize);
+			output.writeUTF(ConstantsUI.FILE);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
+			System.out.println(file.getName() + "nombre del archivo por lado del servidor");
 			FileInputStream filInp = new FileInputStream(file);
 			@SuppressWarnings("resource")
 			BufferedInputStream bis = new BufferedInputStream(filInp);

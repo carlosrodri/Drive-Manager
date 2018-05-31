@@ -3,6 +3,7 @@ package models;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import constants.ConstantsUI;
 
 public class ClientConnections extends Connection{
 
@@ -13,10 +14,10 @@ public class ClientConnections extends Connection{
 	@Override
 	void executeTask() {
 		try {
-			String [] string = readResquest().split("#");
-			switch (string[0]) {
-			case "/message":
-				sendMessage(string);
+			switch (readResquest()) {
+			case ConstantsUI.REGISTRY:
+				Server.addTolist(readResquest(), readResquest());
+				sendMessage();
 				break;
 			}
 
@@ -24,11 +25,12 @@ public class ClientConnections extends Connection{
 		}
 	}
 
-	private void sendMessage(String[] string) {
-		Server.sendMessageALL(string);
+	private void sendMessage() {
+		Server.sendMessageALL();
 	}
 
 	public void sendFile(){
-		sendFile(new File("src/datos/1.jpg"));
+		File file = new File(getClass().getResource("/datas/file.json").getFile());
+		sendFile(file);
 	}
 }
