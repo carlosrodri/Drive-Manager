@@ -53,7 +53,7 @@ public class JSONFileManager {
 				obj = new JSONObject();
 				topObj = new JSONObject();
 				topObj.put("name", user.getName());
-				topObj.put("file", user.getDirectory().getPath());
+				topObj.put("file", user.getDirectory());
 
 				obj.put("User", topObj);
 

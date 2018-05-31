@@ -30,7 +30,7 @@ public class ClientConnections extends Connection{
 	}
 
 	public void sendFile(){
-		File file = new File(getClass().getResource("/datas/file.json").getFile());
+		File file = new File("src/datas/file.json");
 		sendFile(file);
 	}
 }

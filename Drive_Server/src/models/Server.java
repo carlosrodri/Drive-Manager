@@ -17,7 +17,7 @@ public class Server {
 	private MainWindow mainWindow;
 	public static ArrayList<ClientConnections> clientConnections;
 	public static ArrayList<User> userlist;
-	
+
 	public Server() throws IOException {
 		clientConnections = new ArrayList<>();
 		userlist = new ArrayList<>();
@@ -49,11 +49,11 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static ArrayList<ClientConnections> getClientConnections() {
 		return clientConnections;
 	}
-	
+
 	public static void sendMessageALL(){
 		for (ClientConnections clientConnections2 : clientConnections) {
 			try {
@@ -65,14 +65,8 @@ public class Server {
 				e.printStackTrace();
 			}
 		}
-		File file = new File("src/datas/file.json");
-		if (file.exists()) {
-			System.out.println(true);
-			file.delete();
-			System.err.println(file.exists() + "  estado de borrado servidor");
-		}
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			new Server();
@@ -82,10 +76,26 @@ public class Server {
 	}
 
 	public static void addTolist(String readResquest, String readResquest2) {
-		userlist.add(new User(readResquest, new File(readResquest2)));
-		JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
+		userlist.add(new User(readResquest, files(new File(readResquest2))));
+		File file = new File(ConstantsUI.PATH);
+		if (file.exists()) {
+			file.delete();
+		}else {
+			JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
+		}
 		for (User user : userlist) {
 			System.out.println(user.toString() + " cienteeeee");
 		}
+	}
+
+	private static String files(File file) {
+		String letter = "";
+		File[] f = file.listFiles();
+		for (int i = 0; i < f.length; i++) {
+			if(f[i].isFile()) {
+				letter += f[i].getName() + "#";
+			}
+		}
+		return letter;
 	}
 }

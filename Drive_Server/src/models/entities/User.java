@@ -1,12 +1,10 @@
 package models.entities;
 
-import java.io.File;
-
 public class User {
 
 	private String name;
-	private File directory;
-	public User(String name, File directory) {
+	private String directory;
+	public User(String name, String directory) {
 		super();
 		this.name = name;
 		this.directory = directory;
@@ -14,7 +12,7 @@ public class User {
 	public String getName() {
 		return name;
 	}
-	public File getDirectory() {
+	public String getDirectory() {
 		return directory;
 	}
 	@Override

@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -55,8 +56,17 @@ public class ClientWindow extends JFrame{
 	public static void refreshList() throws IOException {
 		model.clear();
 		for (User user : listUser) {
-			model.addElement(user.getName() + "  " + user.getDirectory());
+			model.addElement(user.getName() + " Files:  " + getFiles(user.getDirectory()));
 		}
+	}
+
+	private static String getFiles(File file) {
+		String line =  "";
+		String p [] = file.toString().split("#");
+		for (int i = 0; i < p.length; i++) {
+			line += p[i] + ",  ";
+		}
+		return line;
 	}
 
 	public String getNameClient() {
