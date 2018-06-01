@@ -23,4 +23,9 @@ public class ConstantsUI {
 	public static final Object[] IDENTIFIERS = new Object[] {"File"};
 	public static final String TITLE_MAIN_DIALOG = "FOLDER SHARED";
 	public static final Dimension DIMENSION_DIALOG_DETAILS = new Dimension(200, 400);
+	public static final String DOWNLOAD_CLIENT = "Download of User";
+	public static final String DOWNLOAD_SERVER = "Download if Server";
+	public static final String SERVER = "SERVER";
+	public static final String CLIENT = "CLIENT";
+	public static final String FILE_DOWN = "FD";
 }

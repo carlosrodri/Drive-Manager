@@ -20,4 +20,6 @@ public class ConstantsUI {
 	public static final String NEW_FOLDER = "NF";
 	public static final String FILE = "FILE";
 	public static final String PATH = "src/datas/file";
+	public static final String SERVER = "SERVER";
+	public static final String FILE_DOWN = "FD";
 }

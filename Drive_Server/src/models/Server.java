@@ -1,5 +1,6 @@
 package models;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,7 +32,9 @@ public class Server {
 						System.out.println("Server online...");
 						Socket newConnection = serverSocket.accept();
 						System.out.println("aceptado");
-						clientConnections.add(new ClientConnections(newConnection));
+						ClientConnections c = new ClientConnections(newConnection);
+						c.setName(new DataInputStream(newConnection.getInputStream()).readUTF());
+						clientConnections.add(c);
 						refresh();
 					}
 				} catch (IOException e) {
@@ -83,9 +86,6 @@ public class Server {
 		}else {
 			JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
 		}
-		for (User user : userlist) {
-			System.out.println(user.toString() + " cienteeeee");
-		}
 	}
 
 	private static String files(File file) {
@@ -97,5 +97,18 @@ public class Server {
 			}
 		}
 		return letter;
+	}
+
+	public static void search(String readResquest, String readResquest2) {
+		for (ClientConnections clientConnections2 : clientConnections) {
+			if(clientConnections2.getName().equals(readResquest2)) {
+				try {
+					clientConnections2.send(ConstantsUI.FILE_DOWN);
+					clientConnections2.send(readResquest);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

@@ -15,6 +15,7 @@ import views.FileChooser;
 public class Controller implements ActionListener{
 	private FileChooser fileChooser;
 	private ClientWindow clientWindow;
+	private Client client;
 
 	public Controller() {
 		clientWindow = new ClientWindow(this);
@@ -31,11 +32,36 @@ public class Controller implements ActionListener{
 				e1.printStackTrace();
 			}
 			break;
+		case CLIENT:
+			clientDown();
+			break;
+		case SERVER:
+			serverDown();
+			break;
+		}
+	}
+
+	private void serverDown() {
+		try {
+			client.send(ConstantsUI.SERVER);
+			client.send(clientWindow.getNameOfUser());
+			client.send(clientWindow.getNameOfFile());
+			client.send(clientWindow.getTitle());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void clientDown() {
+		try {
+			client.send(ConstantsUI.CLIENT);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	private void add() throws Exception {
-		Client client = new Client(JOptionPane.showInputDialog("IP"), clientWindow.port(), clientWindow.getNameClient());
+		client = new Client(JOptionPane.showInputDialog("IP"), clientWindow.port(), clientWindow.getNameClient());
 		client.send(ConstantsUI.REGISTRY);
 		client.send(clientWindow.getInfo());
 		client.send(fileChooser.getPathFile());

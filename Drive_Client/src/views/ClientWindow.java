@@ -1,22 +1,17 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
 import constants.ConstantsUI;
 import controllers.Controller;
 import controllers.MyActions;
@@ -38,7 +33,7 @@ public class ClientWindow extends JFrame{
 		setJMenuBar(new Menu_Button().createMenuBar(ConstantsUI.FOLDER, ConstantsUI.FOLDER, controller, MyActions.ADD_NEW.toString()));
 		this.getContentPane().setBackground(ConstantsUI.WINDOW_COLOR);
 		
-		dialog = new DialogDetails();
+		dialog = new DialogDetails(controller);
 		
 		lbTitle = new JLabel(ConstantsUI.TITLE_MAIN_DIALOG);
 		lbTitle.setFont(ConstantsUI.FONT);
@@ -139,5 +134,13 @@ public class ClientWindow extends JFrame{
 	public static void setArray(ArrayList<User> readFile) throws IOException {
 		listUser = readFile;
 		refreshList();
+	}
+
+	public String getNameOfUser() {
+		return dialog.getTitle();
+	}
+
+	public String getNameOfFile() {
+		return dialog.getNameOfFile();
 	}
 }
