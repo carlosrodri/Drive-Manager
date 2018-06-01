@@ -1,6 +1,5 @@
-/persistence/
-/models/
-/constants/
 /views/
+/persistence/
+/constants/
 /controllers/
-/datas/
+/img/

@@ -44,7 +44,6 @@ public class Controller implements ActionListener{
 	public static void refresh() {
 		try {
 			ClientWindow.setArray(JSONFileManager.readFile());
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

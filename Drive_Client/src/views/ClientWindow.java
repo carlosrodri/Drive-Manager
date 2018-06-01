@@ -3,11 +3,16 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -21,52 +26,101 @@ public class ClientWindow extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private Timer timer;
-	private static JList<String> list;
+	private static  ArrayList<User> listUser;
+	private JList<String> list;
 	private static DefaultListModel<String> model;
-	private static ArrayList<User> listUser;
+	private JLabel lbTitle;
+	private DialogDetails dialog;
 
 	public ClientWindow(Controller controller) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(ConstantsUI.DIMENSION);
 		setJMenuBar(new Menu_Button().createMenuBar(ConstantsUI.FOLDER, ConstantsUI.FOLDER, controller, MyActions.ADD_NEW.toString()));
-
+		this.getContentPane().setBackground(ConstantsUI.WINDOW_COLOR);
+		
+		dialog = new DialogDetails();
+		
+		lbTitle = new JLabel(ConstantsUI.TITLE_MAIN_DIALOG);
+		lbTitle.setFont(ConstantsUI.FONT);
+		lbTitle.setIcon(new ImageIcon(getClass().getResource("/img/folder.png")));
+		lbTitle.setHorizontalAlignment(0);
+		add(lbTitle, BorderLayout.NORTH);
+		
 		model = new DefaultListModel<>();
-
+		
 		list = new JList<>(model);
-		add(new JScrollPane(list), BorderLayout.CENTER);
-
-		timer = new Timer(10, new ActionListener() {
+		list.setBackground(ConstantsUI.WINDOW_COLOR);
+		list.addMouseListener(new MouseListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(listUser != null) {
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() >= 2) {
 					try {
-						refreshList();
-					} catch (IOException e1) {
+						System.out.println(list.getSelectedValue()+ "  value finded");
+						dialog.setInfo(searchUser(list.getSelectedValue()));
+					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
+					dialog.setVisible(true);
 				}
 			}
 		});
-		timer.start();
-
+		add(new JScrollPane(list), BorderLayout.CENTER);
+		
+//		timer = new Timer(10, new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(listUser != null) {
+//					try {
+//						refreshList();
+//					} catch (IOException e1) {
+//						e1.printStackTrace();
+//					}
+//				}
+//			}
+//		});
+//		timer.start();
 		setVisible(true);
 	}
 
-	public static void refreshList() throws IOException {
-		model.clear();
+	private User searchUser(String selectedValue) throws Exception {
 		for (User user : listUser) {
-			model.addElement(user.getName() + " Files:  " + getFiles(user.getDirectory()));
+			if(user.getName().equals(selectedValue)) {
+				return user;
+			}
 		}
+			throw new Exception("the element has dont finded");
 	}
-
-	private static String getFiles(File file) {
-		String line =  "";
-		String p [] = file.toString().split("#");
-		for (int i = 0; i < p.length; i++) {
-			line += p[i] + ",  ";
+	
+	public static void refreshList() throws IOException {
+		model.removeAllElements();
+		for (User user : listUser) {
+			model.addElement(user.getName());
 		}
-		return line;
 	}
 
 	public String getNameClient() {
@@ -82,7 +136,8 @@ public class ClientWindow extends JFrame{
 		return name;
 	}
 
-	public static void setArray(ArrayList<User> readFile) {
+	public static void setArray(ArrayList<User> readFile) throws IOException {
 		listUser = readFile;
+		refreshList();
 	}
 }

@@ -67,8 +67,6 @@ public class JSONFileManager {
 			file.write(list.toJSONString());
 			file.flush();
 			file.close();
-
-
 		} catch (IOException e) {
 		}
 	}
