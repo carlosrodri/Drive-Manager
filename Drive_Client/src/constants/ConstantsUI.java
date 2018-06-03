@@ -31,4 +31,5 @@ public class ConstantsUI {
 	public static final String OBTAIN_FILE = "OF";
 	public static final String FILE_USER = "FU";
 	public static final String FILES = "FILES";
+	public static final String UPDATE_FILE = "UF";
 }

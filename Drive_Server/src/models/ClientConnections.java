@@ -28,12 +28,20 @@ public class ClientConnections extends Connection{
 			case ConstantsUI.FILE_USER:
 				sendFileToUser();
 				break;
+			case ConstantsUI.UPDATE_FILE:
+				update(readResquest(), readResquest());
+				break;
 			default:
 				this.name = option;
 				break;
 			}
 		} catch (IOException e) {
 		}
+	}
+
+	private void update(String readResquest, String readResquest2) {
+		Server.sendMessageALL();
+		System.out.println("     refresh?????");
 	}
 
 	private void sendFileToUser() throws IOException {

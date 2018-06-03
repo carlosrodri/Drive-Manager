@@ -214,6 +214,9 @@ public class Client extends Connection{
 			}
 			out.write(buffer);
 			out.flush();
+			send(ConstantsUI.UPDATE_FILE);
+			send(nameFile);
+			send(getName());
 		} catch (IOException e1) {
 			System.out.println("Recibir "+ e1.toString());
 		}
