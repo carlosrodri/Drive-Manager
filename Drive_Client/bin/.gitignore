@@ -1,7 +1,5 @@
-/views/
-/persistence/
-/constants/
-/controllers/
-/img/
-/datas/
 /models/
+/controllers/
+/datas
+/views/
+/constants/

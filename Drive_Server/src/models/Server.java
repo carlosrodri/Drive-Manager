@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-
 import constants.ConstantsUI;
 import models.entities.User;
 import persistence.JSONFileManager;
@@ -32,9 +31,7 @@ public class Server {
 						System.out.println("Server online...");
 						Socket newConnection = serverSocket.accept();
 						System.out.println("aceptado");
-						ClientConnections c = new ClientConnections(newConnection);
-						c.setName(new DataInputStream(newConnection.getInputStream()).readUTF());
-						clientConnections.add(c);
+						clientConnections.add( new ClientConnections(newConnection));
 						refresh();
 					}
 				} catch (IOException e) {
@@ -80,12 +77,7 @@ public class Server {
 
 	public static void addTolist(String readResquest, String readResquest2) {
 		userlist.add(new User(readResquest, files(new File(readResquest2))));
-		File file = new File(ConstantsUI.PATH);
-		if (file.exists()) {
-			file.delete();
-		}else {
-			JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
-		}
+		JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
 	}
 
 	private static String files(File file) {
@@ -99,15 +91,24 @@ public class Server {
 		return letter;
 	}
 
-	public static void search(String readResquest, String readResquest2) {
+	public static void search(String userName, String file, String petitor) {
 		for (ClientConnections clientConnections2 : clientConnections) {
-			if(clientConnections2.getName().equals(readResquest2)) {
+			if(clientConnections2.getName().equals(userName)) {
 				try {
-					clientConnections2.send(ConstantsUI.FILE_DOWN);
-					clientConnections2.send(readResquest);
+					clientConnections2.send(ConstantsUI.OBTAIN_FILE);
+					clientConnections2.send(file);
+					clientConnections2.send(petitor);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+
+	public static void searchUserTosend(String nameOfUser, File path) {
+		for (ClientConnections clientConnections2 : clientConnections) {
+			if (clientConnections2.getName().equals(nameOfUser)) {
+				clientConnections2.sendFile(path);
 			}
 		}
 	}

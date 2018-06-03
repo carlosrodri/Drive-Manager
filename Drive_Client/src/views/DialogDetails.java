@@ -31,38 +31,40 @@ public class DialogDetails extends JDialog{
 		miDownloadClient = new JMenuItem(ConstantsUI.DOWNLOAD_CLIENT);
 		miDownloadClient.addActionListener(controller);
 		miDownloadClient.setActionCommand(MyActions.CLIENT.toString());
-		
+
 		miDownloadServer = new JMenuItem(ConstantsUI.DOWNLOAD_SERVER);
 		miDownloadServer.addActionListener(controller);
 		miDownloadServer.setActionCommand(MyActions.SERVER.toString());
-		
+
 		pop = new JPopupMenu();
 		pop.add(miDownloadServer);
 		pop.add(miDownloadClient);
-		
+
 		model = new DefaultListModel<>();
 		files = new JList<>(model);
 		files.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getModifiers() == 4) {
+					files.setSelectedIndex(files.locationToIndex(e.getPoint()));   
+					pop.setLocation(getMousePosition());
 					pop.setVisible(true);
 				}
 			}
@@ -78,6 +80,10 @@ public class DialogDetails extends JDialog{
 		for (int i = 0; i < p.length; i++) {
 			model.addElement(p[i]);
 		}
+	}
+
+	public void ocultPop() {
+		pop.setVisible(false);
 	}
 
 	public String getNameOfFile() {

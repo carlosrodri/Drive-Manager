@@ -42,6 +42,7 @@ public class JSONFileManager {
 
 	@SuppressWarnings("unchecked")
 	public static void writeFile(String path, List<User> userlist) {
+		
 		JSONObject obj = null;
 
 		JSONObject topObj = null;

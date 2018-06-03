@@ -33,36 +33,31 @@ public class Controller implements ActionListener{
 			}
 			break;
 		case CLIENT:
-			clientDown();
+//			clientDown();
 			break;
 		case SERVER:
-			serverDown();
+			try {
+				serverDown();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			break;
 		}
 	}
 
-	private void serverDown() {
-		try {
-			client.send(ConstantsUI.SERVER);
-			client.send(clientWindow.getNameOfUser());
-			client.send(clientWindow.getNameOfFile());
-			client.send(clientWindow.getTitle());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void clientDown() {
-		try {
-			client.send(ConstantsUI.CLIENT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void serverDown() throws IOException {
+		clientWindow.ocultPop();
+		client.send(ConstantsUI.SERVER);//envia la peticion al servidor para que busque
+		client.send(clientWindow.getNameOfUser());//obtiene el nombre del cliente a buscar
+		client.send(clientWindow.getNameOfFile()); // obtiene el  nombre del archov a enviar
+//		client.send(clientWindow.getInfo());//obtiene el nombre del que pide la info
+		client.send(client.getName());//obtiene el nombre del que pide la info
 	}
 
 	private void add() throws Exception {
 		client = new Client(JOptionPane.showInputDialog("IP"), clientWindow.port(), clientWindow.getNameClient());
 		client.send(ConstantsUI.REGISTRY);
+		System.out.println(clientWindow.getInfo() + "       nombre del nuevo perro");
 		client.send(clientWindow.getInfo());
 		client.send(fileChooser.getPathFile());
 	}

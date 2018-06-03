@@ -6,16 +6,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import constants.ConstantsUI;
 
 public abstract class Connection extends MyThread{
 
 	private Socket socket;
 	private DataInputStream input;
 	private DataOutputStream output;
+	private File path;
 	
 	public Connection(Socket socket) throws IOException {
 		this.socket = socket;
@@ -28,11 +28,41 @@ public abstract class Connection extends MyThread{
 		output.writeUTF(data);
 	}
 	
+	public void saveFile() throws IOException {
+		File fi = new File("src/datas/");
+		if(!fi.exists()) {
+			System.out.println("no existe");
+			fi.mkdir();
+		}
+		try{
+			String nameFile = input.readUTF();
+			int tam = input.readInt();
+			File f = new File("src/datas/" + nameFile);
+			path = f;
+			FileOutputStream fos = new FileOutputStream(f);
+			@SuppressWarnings("resource")
+			BufferedOutputStream out = new BufferedOutputStream(fos);
+			BufferedInputStream in = new BufferedInputStream(getSocket().getInputStream());
+			byte[] buffer = new byte[tam];
+			for (int i = 0; i < buffer.length; i++) {
+				buffer[i] = (byte) in.read();
+			}
+			out.write(buffer);
+			out.flush();
+		} catch (IOException e1) {
+			System.out.println("Recibir "+ e1.toString());
+		}
+	}
+	
+	public File getPath() {
+		return path;
+	}
+
 	public void sendFile(File file){
 		try {
 			int fileSize = (int) file.length();
 			output = new DataOutputStream(socket.getOutputStream());
-			output.writeUTF(ConstantsUI.FILE);
+//			output.writeUTF(ConstantsUI.FILE);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
 			System.out.println(file.getName() + "nombre del archivo por lado del servidor");
@@ -56,6 +86,7 @@ public abstract class Connection extends MyThread{
 			e.printStackTrace();
 		}
 	}
+	
 	public Socket getSocket() {
 		return socket;
 	}

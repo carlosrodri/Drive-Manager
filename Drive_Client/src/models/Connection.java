@@ -42,6 +42,10 @@ public abstract class Connection extends MyThread{
 		return input.readUTF();
 	}
 
+	public int readResponseInt() throws IOException {
+		return input.readInt();
+	}
+	
 	public void close() throws IOException{
 		output.close();
 		input.close();

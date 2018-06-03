@@ -16,22 +16,35 @@ public class ClientConnections extends Connection{
 	@Override
 	void executeTask() {
 		try {
-			switch (readResquest()) {
+			String option = readResquest();
+			switch (option) {
 			case ConstantsUI.REGISTRY:
+				System.out.println("llega con la peticion desde el pito cliiente");
 				Server.addTolist(readResquest(), readResquest());
 				sendMessage();
 				break;
 			case ConstantsUI.SERVER:
 				getFileOfServer();
 				break;
+			case ConstantsUI.FILE_USER:
+				sendFileToUser();
+				break;
+			default:
+				System.out.println(option+"        default");
+				this.name = option;
+				break;
 			}
-
 		} catch (IOException e) {
 		}
 	}
 
+	private void sendFileToUser() throws IOException {
+		saveFile();
+		Server.searchUserTosend(readResquest(), getPath());
+	}
+
 	private void getFileOfServer() throws IOException {
-		Server.search(readResquest(), readResquest());
+		Server.search(readResquest(), readResquest(), readResquest());
 	}
 
 	private void sendMessage() {
@@ -39,13 +52,12 @@ public class ClientConnections extends Connection{
 	}
 
 	public void sendFile(){
-		File file = new File("src/datas/file.json");
-		sendFile(file);
+		sendFile(new File(ConstantsUI.PATH+".json"));
 	}
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}

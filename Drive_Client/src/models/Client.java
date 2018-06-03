@@ -38,12 +38,52 @@ public class Client extends Connection{
 			case ConstantsUI.FILE_DOWN:
 				sendFile(new File(readResponse()));
 				break;
+				
+			case ConstantsUI.OBTAIN_FILE:
+				sendFileToServer(readResponse(), readResponse());
+				break;
 			}
 			
 		} catch (IOException e) {
 		}
 	}
 
+	private void sendFileToServer(String fileName, String adressee) throws IOException {
+		File f = new File("src/datas"+fileName);
+		if(f.exists()) {
+			sendFileUser(f);
+			send(adressee);
+		}
+	}
+
+	public void sendFileUser(File file){
+		try {
+			int fileSize = (int) file.length();
+			DataOutputStream output = new DataOutputStream(getOutput());
+			output.writeUTF(ConstantsUI.FILE_USER);
+			output.writeUTF(file.getName());
+			output.writeInt(fileSize);
+			FileInputStream filInp = new FileInputStream(file);
+			@SuppressWarnings("resource")
+			BufferedInputStream bis = new BufferedInputStream(filInp);
+			BufferedOutputStream bos = new BufferedOutputStream(getOutput());
+			byte[] buffer = new byte[fileSize];
+			bis.read(buffer);
+			for (int i = 0; i < buffer.length; i++) {
+				bos.write(buffer[i]);
+			}
+			bos.flush();
+		} catch (IOException e) {
+			System.out.println("Error al crear canal de salida en el servidor.");
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendFile(File file){
 		try {
 			int fileSize = (int) file.length();
@@ -51,7 +91,6 @@ public class Client extends Connection{
 			output.writeUTF(ConstantsUI.FILE);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
-			System.out.println(file.getName() + "nombre del archivo por lado del servidor");
 			FileInputStream filInp = new FileInputStream(file);
 			@SuppressWarnings("resource")
 			BufferedInputStream bis = new BufferedInputStream(filInp);
@@ -74,8 +113,11 @@ public class Client extends Connection{
 	}
 	
 	private void readFile() {
-		System.out.println("leeeee jajaja");
-		saveFile();
+		try {
+			saveFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Controller.refresh();
 	}
 
@@ -89,19 +131,18 @@ public class Client extends Connection{
 //		}
 	}
 
-	public void saveFile() {
+	public void saveFile() throws IOException {
+		File fi = new File("src/datas/");
+		if(!fi.exists()) {
+			System.out.println("no existe");
+			fi.mkdir();
+		}
 		try{
 			setInput(new DataInputStream(getSocket().getInputStream()));
-			getInput().readUTF().toString();
-			String nameFile = readResponse();
-			File file = new File("src/datas/" + nameFile);
-			if(file.exists()) {
-				file.delete();
-				System.out.println("disponible el archivo? " + file.exists());
-			}
+			String nameFile = getInput().readUTF();
 			int tam = getInput().readInt();
-			System.out.println(file + "    ruta del archivo");
-			FileOutputStream fos = new FileOutputStream(new File("src/datas/" + nameFile));
+			File f = new File("src/datas/" + nameFile);
+			FileOutputStream fos = new FileOutputStream(f);
 			@SuppressWarnings("resource")
 			BufferedOutputStream out = new BufferedOutputStream(fos);
 			BufferedInputStream in = new BufferedInputStream(getSocket().getInputStream());

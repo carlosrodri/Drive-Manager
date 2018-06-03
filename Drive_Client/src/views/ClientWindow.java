@@ -143,4 +143,8 @@ public class ClientWindow extends JFrame{
 	public String getNameOfFile() {
 		return dialog.getNameOfFile();
 	}
+	
+	public void ocultPop() {
+		dialog.ocultPop();
+	}
 }
