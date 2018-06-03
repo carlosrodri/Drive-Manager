@@ -27,13 +27,6 @@ public class Client extends Connection{
 	void executeTask() {
 		try {
 			switch (readResponse()) {
-			case ConstantsUI.FOLDER_CREATED:
-				showFolders();
-				break;
-			case ConstantsUI.NEW_FOLDER:
-//				refresh(readResponse(), readResponse());
-//				readFile();
-				break;
 			case ConstantsUI.FILE:
 				readFile();
 				break;
@@ -149,16 +142,6 @@ public class Client extends Connection{
 			e.printStackTrace();
 		}
 		Controller.refresh();
-	}
-
-	private void showFolders() {
-//		if (!string[1].equals(name)) {
-//			System.out.println(string + "  acacacaca");
-////			Controller.showMessage(string);
-//		}else {
-//			System.out.println(string + "  yoooo");
-////			Controller.showMessageMe(string);
-//		}
 	}
 
 	public void saveFile() throws IOException {

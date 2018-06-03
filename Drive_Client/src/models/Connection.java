@@ -3,13 +3,15 @@ package models;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public abstract class Connection extends MyThread{
 
 	private Socket socket;
-	private DataInputStream input;
-	private DataOutputStream output;
+	private ServerSocket serverSocket;
+	private DataInputStream input, inputServer;
+	private DataOutputStream output, outputServer;
 
 	public Connection(String ip, int port) throws IOException {
 		this.socket = new Socket(ip, port);
@@ -18,6 +20,16 @@ public abstract class Connection extends MyThread{
 		start();
 	}
 
+	public void initAsServer() throws IOException {
+		//ahora falta la conexion con el cliente directo
+		serverSocket = new ServerSocket(2002);
+		Socket c = serverSocket.accept();
+		inputServer = new DataInputStream(c.getInputStream());
+		outputServer = new DataOutputStream(c.getOutputStream());
+		
+//		outputServer.writeUTF(str);
+	}
+	
 	public void setInput(DataInputStream input) {
 		this.input = input;
 	}

@@ -13,8 +13,6 @@ public class ConstantsUI {
 	public static final Font FONT = new Font("Comis Sans Ms", Font.BOLD, 15);
 	public static final String TITLE = "UPTC CHAT";
 	public static final Color COLOR_TF = Color.decode("#6dc4b6");
-	public static final String FOLDER_CREATED = "FOLDER_C";
-	public static final String NEW_FOLDER = "NF";
 	public static final Dimension DIMENSION = new Dimension(500, 700);
 	public static final String FOLDER = "New Folder";
 	public static final String REGISTRY = "REGISTRY";
