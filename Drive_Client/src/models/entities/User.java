@@ -1,21 +1,23 @@
 package models.entities;
 
-import java.io.File;
-
 public class User {
 
 	private String name;
-	private File directory;
-	public User(String name, File directory) {
-		super();
+	private String directory;
+	private String path;
+	public User(String name, String directory, String path) {
 		this.name = name;
 		this.directory = directory;
+		this.path = path;
 	}
 	public String getName() {
 		return name;
 	}
-	public File getDirectory() {
+	public String getDirectory() {
 		return directory;
+	}
+	public String getPath() {
+		return path;
 	}
 	@Override
 	public String toString() {

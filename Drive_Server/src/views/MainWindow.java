@@ -32,7 +32,6 @@ public class MainWindow extends JFrame{
 	}
 	
 	public void refreshList(ArrayList<ClientConnections> list) throws IOException {
-		System.out.println(list.get(0).toString());
 		model.clear();
 		for (ClientConnections string : list) {
 			model.addElement("Client:  " + string.getSocket().getInetAddress().toString());

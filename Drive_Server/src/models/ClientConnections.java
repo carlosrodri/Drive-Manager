@@ -19,7 +19,6 @@ public class ClientConnections extends Connection{
 			String option = readResquest();
 			switch (option) {
 			case ConstantsUI.REGISTRY:
-				System.out.println("llega con la peticion desde el pito cliiente");
 				Server.addTolist(readResquest(), readResquest());
 				sendMessage();
 				break;
@@ -30,7 +29,6 @@ public class ClientConnections extends Connection{
 				sendFileToUser();
 				break;
 			default:
-				System.out.println(option+"        default");
 				this.name = option;
 				break;
 			}

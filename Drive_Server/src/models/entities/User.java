@@ -1,19 +1,24 @@
 package models.entities;
 
-public class User {
+
+public class User{
 
 	private String name;
 	private String directory;
-	public User(String name, String directory) {
-		super();
+	private String path;
+	public User(String name, String directory, String path) {
 		this.name = name;
 		this.directory = directory;
+		this.path = path;
 	}
 	public String getName() {
 		return name;
 	}
 	public String getDirectory() {
 		return directory;
+	}
+	public String getPath() {
+		return path;
 	}
 	@Override
 	public String toString() {

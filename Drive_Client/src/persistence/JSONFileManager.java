@@ -1,6 +1,5 @@
 package persistence;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,7 +35,7 @@ public class JSONFileManager {
 
 			JSONObject o = (JSONObject) objCyclist.get("User");
 
-			list.add(new User(o.get("name").toString(), new File(o.get("file").toString())));
+			list.add(new User(o.get("name").toString(), o.get("directory").toString(), o.get("path").toString()));
 		}
 		return list;
 	}
@@ -53,7 +52,8 @@ public class JSONFileManager {
 				obj = new JSONObject();
 				topObj = new JSONObject();
 				topObj.put("name", user.getName());
-				topObj.put("file", user.getDirectory());
+				topObj.put("directory", user.getDirectory());
+				topObj.put("path", user.getPath());
 
 				obj.put("User", topObj);
 

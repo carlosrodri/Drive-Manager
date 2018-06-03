@@ -76,6 +76,10 @@ public abstract class Connection extends MyThread{
 				bos.write(buffer[i]);
 			}
 			bos.flush();
+			if(file.exists()) {
+				System.out.println(file.delete());
+			}
+			
 		} catch (IOException e) {
 			System.out.println("Error al crear canal de salida en el servidor.");
 			e.printStackTrace();

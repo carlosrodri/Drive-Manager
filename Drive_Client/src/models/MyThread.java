@@ -55,6 +55,5 @@ public abstract class MyThread implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
 	abstract void executeTask();
 }

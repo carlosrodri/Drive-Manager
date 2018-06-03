@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import constants.ConstantsUI;
 import controllers.Controller;
+import models.entities.User;
+import views.ClientWindow;
 
 public class Client extends Connection{
 
@@ -35,10 +37,12 @@ public class Client extends Connection{
 			case ConstantsUI.FILE:
 				readFile();
 				break;
+			case ConstantsUI.FILES:
+				readFiles();
+				break;
 			case ConstantsUI.FILE_DOWN:
 				sendFile(new File(readResponse()));
 				break;
-				
 			case ConstantsUI.OBTAIN_FILE:
 				sendFileToServer(readResponse(), readResponse());
 				break;
@@ -48,19 +52,45 @@ public class Client extends Connection{
 		}
 	}
 
-	private void sendFileToServer(String fileName, String adressee) throws IOException {
-		File f = new File("src/datas"+fileName);
-		if(f.exists()) {
-			sendFileUser(f);
-			send(adressee);
+	private void readFiles() {
+		try {
+			saveFiles();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		Controller.refresh();
+	}
+
+	private void sendFileToServer(String fileName, String adressee) throws IOException {
+		File f;
+		try {
+			f = new File(findByName(readResponse())+fileName);
+			if(f.exists()) {
+				System.out.println(adressee+ "             destinatario y existe el archivo en remoto");
+				send(ConstantsUI.FILE_USER);
+				sendFileUser(f);
+				send(adressee);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String findByName(String name) throws Exception {
+		for (User user : ClientWindow.getList()) {
+			if(user.getName().equals(name)) {
+				System.out.println("encontro el directorio  "    + user.getPath());
+				return user.getPath()+"/";
+			}
+		}
+		throw new Exception("element not found");
 	}
 
 	public void sendFileUser(File file){
 		try {
 			int fileSize = (int) file.length();
 			DataOutputStream output = new DataOutputStream(getOutput());
-			output.writeUTF(ConstantsUI.FILE_USER);
+//			output.writeUTF(ConstantsUI.FILE_USER);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
 			FileInputStream filInp = new FileInputStream(file);
@@ -157,6 +187,38 @@ public class Client extends Connection{
 		}
 	}
 
+	public void saveFiles() throws IOException {
+		File fi = null;
+		try {
+			fi = new File(findByName(getName()));
+			if(!fi.exists()) {
+				System.out.println("no existe");
+				fi.mkdir();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try{
+			setInput(new DataInputStream(getSocket().getInputStream()));
+			String nameFile = getInput().readUTF();
+			int tam = getInput().readInt();
+			File f = new File(fi+"/"+nameFile);
+			System.out.println(f+"     carpeta en donde se gusrada al final");
+			FileOutputStream fos = new FileOutputStream(f);
+			@SuppressWarnings("resource")
+			BufferedOutputStream out = new BufferedOutputStream(fos);
+			BufferedInputStream in = new BufferedInputStream(getSocket().getInputStream());
+			byte[] buffer = new byte[tam];
+			for (int i = 0; i < buffer.length; i++) {
+				buffer[i] = (byte) in.read();
+			}
+			out.write(buffer);
+			out.flush();
+		} catch (IOException e1) {
+			System.out.println("Recibir "+ e1.toString());
+		}
+	}
+	
 	public String getName() {
 		return name;
 	}

@@ -35,7 +35,7 @@ public class JSONFileManager {
 
 			JSONObject o = (JSONObject) objCyclist.get("User");
 
-			list.add(new User(o.get("name").toString(), o.get("file").toString()));
+			list.add(new User(o.get("name").toString(), o.get("directory").toString(), o.get("path").toString()));
 		}
 		return list;
 	}
@@ -53,7 +53,8 @@ public class JSONFileManager {
 				obj = new JSONObject();
 				topObj = new JSONObject();
 				topObj.put("name", user.getName());
-				topObj.put("file", user.getDirectory());
+				topObj.put("directory", user.getDirectory());
+				topObj.put("path", user.getPath());
 
 				obj.put("User", topObj);
 
@@ -62,7 +63,6 @@ public class JSONFileManager {
 		}
 
 		try {
-
 			FileWriter file = new FileWriter(path + ".json", false);
 			file.write(list.toJSONString());
 			file.flush();

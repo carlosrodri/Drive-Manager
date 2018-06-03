@@ -147,4 +147,8 @@ public class ClientWindow extends JFrame{
 	public void ocultPop() {
 		dialog.ocultPop();
 	}
+
+	public static ArrayList<User> getList() {
+		return listUser;
+	}
 }

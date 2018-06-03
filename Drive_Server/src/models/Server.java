@@ -1,6 +1,5 @@
 package models;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -76,7 +75,7 @@ public class Server {
 	}
 
 	public static void addTolist(String readResquest, String readResquest2) {
-		userlist.add(new User(readResquest, files(new File(readResquest2))));
+		userlist.add(new User(readResquest, files(new File(readResquest2)), readResquest2));
 		JSONFileManager.writeFile(ConstantsUI.PATH, userlist);
 	}
 
@@ -90,7 +89,7 @@ public class Server {
 		}
 		return letter;
 	}
-
+	
 	public static void search(String userName, String file, String petitor) {
 		for (ClientConnections clientConnections2 : clientConnections) {
 			if(clientConnections2.getName().equals(userName)) {
@@ -98,6 +97,7 @@ public class Server {
 					clientConnections2.send(ConstantsUI.OBTAIN_FILE);
 					clientConnections2.send(file);
 					clientConnections2.send(petitor);
+					clientConnections2.send(clientConnections2.getName());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -106,9 +106,15 @@ public class Server {
 	}
 
 	public static void searchUserTosend(String nameOfUser, File path) {
+		System.out.println("nombre del usuario al que le voy a enviar el archivo final     " + nameOfUser);
 		for (ClientConnections clientConnections2 : clientConnections) {
 			if (clientConnections2.getName().equals(nameOfUser)) {
-				clientConnections2.sendFile(path);
+				try {
+					clientConnections2.send(ConstantsUI.FILES);
+					clientConnections2.sendFile(path);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
