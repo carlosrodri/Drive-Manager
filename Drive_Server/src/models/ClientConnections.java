@@ -41,7 +41,6 @@ public class ClientConnections extends Connection{
 
 	private void update(String readResquest, String readResquest2) {
 		Server.sendMessageALL();
-		System.out.println("     refresh?????");
 	}
 
 	private void sendFileToUser() throws IOException {

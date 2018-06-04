@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -75,10 +76,12 @@ public class DialogDetails extends JDialog{
 
 	public void setInfo(User user) {
 		setTitle(user.getName());
+		File f = new File(user.getPath());
+//		String[] p = user.getDirectory().toString().split("#");
+		File [] fi = f.listFiles(); 
 		model.removeAllElements();
-		String[] p = user.getDirectory().toString().split("#");
-		for (int i = 0; i < p.length; i++) {
-			model.addElement(p[i]);
+		for (int i = 0; i < fi.length; i++) {
+			model.addElement(fi[i].getName());
 		}
 	}
 

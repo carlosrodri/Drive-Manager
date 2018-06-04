@@ -17,7 +17,7 @@ public class ConstantsUI {
 	public static final String FOLDER = "New Folder";
 	public static final String REGISTRY = "REGISTRY";
 	public static final String FILE = "FILE";
-	public static final String PATH = "src/datas/file";
+	public static final String PATH = "datas/file";
 	public static final Object[] IDENTIFIERS = new Object[] {"File"};
 	public static final String TITLE_MAIN_DIALOG = "FOLDER SHARED";
 	public static final Dimension DIMENSION_DIALOG_DETAILS = new Dimension(200, 400);

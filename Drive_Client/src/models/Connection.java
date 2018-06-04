@@ -10,7 +10,9 @@ public abstract class Connection extends MyThread{
 
 	private Socket socket;
 	private ServerSocket serverSocket;
+	@SuppressWarnings("unused")
 	private DataInputStream input, inputServer;
+	@SuppressWarnings("unused")
 	private DataOutputStream output, outputServer;
 
 	public Connection(String ip, int port) throws IOException {

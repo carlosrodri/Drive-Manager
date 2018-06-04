@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 import constants.ConstantsUI;
 import controllers.Controller;
 import models.entities.User;
@@ -59,7 +62,6 @@ public class Client extends Connection{
 		try {
 			f = new File(findByName(readResponse())+fileName);
 			if(f.exists()) {
-				System.out.println(adressee+ "             destinatario y existe el archivo en remoto");
 				send(ConstantsUI.FILE_USER);
 				sendFileUser(f);
 				send(adressee);
@@ -72,7 +74,6 @@ public class Client extends Connection{
 	private static String findByName(String name) throws Exception {
 		for (User user : ClientWindow.getList()) {
 			if(user.getName().equals(name)) {
-				System.out.println("encontro el directorio  "    + user.getPath());
 				return user.getPath()+"/";
 			}
 		}
@@ -145,16 +146,17 @@ public class Client extends Connection{
 	}
 
 	public void saveFile() throws IOException {
-		File fi = new File("src/datas/");
+		File fi = new File("datas/");
+//		File fi = new File("src/datas/");
 		if(!fi.exists()) {
-			System.out.println("no existe");
 			fi.mkdir();
 		}
 		try{
 			setInput(new DataInputStream(getSocket().getInputStream()));
 			String nameFile = getInput().readUTF();
 			int tam = getInput().readInt();
-			File f = new File("src/datas/" + nameFile);
+			File f = new File("datas/" + nameFile);
+//			File f = new File("src/datas/" + nameFile);
 			FileOutputStream fos = new FileOutputStream(f);
 			@SuppressWarnings("resource")
 			BufferedOutputStream out = new BufferedOutputStream(fos);
@@ -175,7 +177,6 @@ public class Client extends Connection{
 		try {
 			fi = new File(findByName(getName()));
 			if(!fi.exists()) {
-				System.out.println("no existe");
 				fi.mkdir();
 			}
 		} catch (Exception e) {
@@ -186,7 +187,6 @@ public class Client extends Connection{
 			String nameFile = getInput().readUTF();
 			int tam = getInput().readInt();
 			File f = new File(fi+"/"+nameFile);
-			System.out.println(f+"     carpeta en donde se gusrada al final");
 			FileOutputStream fos = new FileOutputStream(f);
 			@SuppressWarnings("resource")
 			BufferedOutputStream out = new BufferedOutputStream(fos);
@@ -200,6 +200,7 @@ public class Client extends Connection{
 			send(ConstantsUI.UPDATE_FILE);
 			send(nameFile);
 			send(getName());
+			JOptionPane.showMessageDialog(null, "the file: " + nameFile + "  has been downloaded");
 		} catch (IOException e1) {
 			System.out.println("Recibir "+ e1.toString());
 		}

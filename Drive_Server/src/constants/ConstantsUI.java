@@ -19,7 +19,7 @@ public class ConstantsUI {
 	public static final String REGISTRY = "REGISTRY";
 	public static final String NEW_FOLDER = "NF";
 	public static final String FILE = "FILE";
-	public static final String PATH = "src/datas/file";
+	public static final String PATH = "datas/file";
 	public static final String SERVER = "SERVER";
 	public static final String FILE_DOWN = "FD";
 	public static final String OBTAIN_FILE = "OF";

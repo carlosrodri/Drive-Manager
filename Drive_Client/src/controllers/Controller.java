@@ -55,9 +55,8 @@ public class Controller implements ActionListener{
 	}
 
 	private void add() throws Exception {
-		client = new Client(JOptionPane.showInputDialog("IP"), 2001/*clientWindow.port()*/, clientWindow.getNameClient());
+		client = new Client(JOptionPane.showInputDialog("IP"), clientWindow.port(), clientWindow.getNameClient());
 		client.send(ConstantsUI.REGISTRY);
-		System.out.println(clientWindow.getInfo() + "       nombre del nuevo perro");
 		client.send(clientWindow.getInfo());
 		client.send(fileChooser.getPathFile());
 	}

@@ -37,7 +37,6 @@ public class Server {
 					e.printStackTrace();
 				}
 			}
-
 		}.start();
 	}
 
@@ -106,7 +105,6 @@ public class Server {
 	}
 
 	public static void searchUserTosend(String nameOfUser, File path) {
-		System.out.println("nombre del usuario al que le voy a enviar el archivo final     " + nameOfUser);
 		for (ClientConnections clientConnections2 : clientConnections) {
 			if (clientConnections2.getName().equals(nameOfUser)) {
 				try {

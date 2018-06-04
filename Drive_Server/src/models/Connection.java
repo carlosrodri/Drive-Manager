@@ -29,15 +29,15 @@ public abstract class Connection extends MyThread{
 	}
 	
 	public void saveFile() throws IOException {
-		File fi = new File("src/datas/");
+		File fi = new File("datas/");
 		if(!fi.exists()) {
-			System.out.println("no existe");
 			fi.mkdir();
 		}
 		try{
 			String nameFile = input.readUTF();
 			int tam = input.readInt();
-			File f = new File("src/datas/" + nameFile);
+//			File f = new File("src/datas/" + nameFile);
+			File f = new File("datas/" + nameFile);
 			path = f;
 			FileOutputStream fos = new FileOutputStream(f);
 			@SuppressWarnings("resource")
@@ -65,7 +65,6 @@ public abstract class Connection extends MyThread{
 //			output.writeUTF(ConstantsUI.FILE);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
-			System.out.println(file.getName() + "nombre del archivo por lado del servidor");
 			FileInputStream filInp = new FileInputStream(file);
 			@SuppressWarnings("resource")
 			BufferedInputStream bis = new BufferedInputStream(filInp);
@@ -76,9 +75,6 @@ public abstract class Connection extends MyThread{
 				bos.write(buffer[i]);
 			}
 			bos.flush();
-			if(file.exists()) {
-				System.out.println(file.delete());
-			}
 			
 		} catch (IOException e) {
 			System.out.println("Error al crear canal de salida en el servidor.");

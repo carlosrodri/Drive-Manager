@@ -75,7 +75,6 @@ public class ClientWindow extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() >= 2) {
 					try {
-						System.out.println(list.getSelectedValue()+ "  value finded");
 						dialog.setInfo(searchUser(list.getSelectedValue()));
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -86,19 +85,6 @@ public class ClientWindow extends JFrame{
 		});
 		add(new JScrollPane(list), BorderLayout.CENTER);
 		
-//		timer = new Timer(10, new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(listUser != null) {
-//					try {
-//						refreshList();
-//					} catch (IOException e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//			}
-//		});
-//		timer.start();
 		setVisible(true);
 	}
 
