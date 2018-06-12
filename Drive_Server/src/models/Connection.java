@@ -36,7 +36,6 @@ public abstract class Connection extends MyThread{
 		try{
 			String nameFile = input.readUTF();
 			int tam = input.readInt();
-//			File f = new File("src/datas/" + nameFile);
 			File f = new File("datas/" + nameFile);
 			path = f;
 			FileOutputStream fos = new FileOutputStream(f);
@@ -62,7 +61,6 @@ public abstract class Connection extends MyThread{
 		try {
 			int fileSize = (int) file.length();
 			output = new DataOutputStream(socket.getOutputStream());
-//			output.writeUTF(ConstantsUI.FILE);
 			output.writeUTF(file.getName());
 			output.writeInt(fileSize);
 			FileInputStream filInp = new FileInputStream(file);
@@ -86,10 +84,6 @@ public abstract class Connection extends MyThread{
 			e.printStackTrace();
 		}
 	}
-	
-	public Socket getSocket() {
-		return socket;
-	}
 
 	public String readResquest() throws IOException{
 		return input.readUTF();
@@ -101,6 +95,10 @@ public abstract class Connection extends MyThread{
 
 	public DataOutputStream getOutput() {
 		return output;
+	}
+	
+	public Socket getSocket() {
+		return socket;
 	}
 	
 	public void close() throws IOException{

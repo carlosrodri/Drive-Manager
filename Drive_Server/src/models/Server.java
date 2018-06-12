@@ -30,7 +30,7 @@ public class Server {
 						System.out.println("Server online...");
 						Socket newConnection = serverSocket.accept();
 						System.out.println("aceptado");
-						clientConnections.add( new ClientConnections(newConnection));
+						clientConnections.add(new ClientConnections(newConnection));
 						refresh();
 					}
 				} catch (IOException e) {
@@ -104,6 +104,26 @@ public class Server {
 		}
 	}
 
+	public static void searchU(String userName, String file, String petitor) throws IOException {
+		for (ClientConnections clientConnections2 : clientConnections) {
+			if(clientConnections2.getName().equals(userName)) {
+				try {
+					clientConnections2.send(ConstantsUI.AS_SERVER);
+					clientConnections2.send(file);
+					clientConnections2.send(userName);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		for (ClientConnections clientConnections2 : clientConnections) {
+			if (clientConnections2.getName().equals(petitor)) {
+				clientConnections2.send(ConstantsUI.PORT);
+				clientConnections2.send("2005");
+			}
+		}
+	}
+	
 	public static void searchUserTosend(String nameOfUser, File path) {
 		for (ClientConnections clientConnections2 : clientConnections) {
 			if (clientConnections2.getName().equals(nameOfUser)) {

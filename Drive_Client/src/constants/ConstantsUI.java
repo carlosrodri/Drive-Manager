@@ -30,4 +30,8 @@ public class ConstantsUI {
 	public static final String FILE_USER = "FU";
 	public static final String FILES = "FILES";
 	public static final String UPDATE_FILE = "UF";
+	public static final String FILE_UD = "FUD";
+	public static final String PORT = "PORT";
+	public static final String AS_SERVER = "AS";
+	public static final String FILE_TO_USER = "FTU";
 }

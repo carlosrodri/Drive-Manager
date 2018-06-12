@@ -33,7 +33,11 @@ public class Controller implements ActionListener{
 			}
 			break;
 		case CLIENT:
-//			clientDown();
+			try {
+				clientDown();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
 			break;
 		case SERVER:
 			try {
@@ -45,13 +49,22 @@ public class Controller implements ActionListener{
 		}
 	}
 
+	private void clientDown() throws IOException {
+		clientWindow.ocultPop();
+		client.send(ConstantsUI.CLIENT);//envia la peticion al servidor para que busque
+		client.send(clientWindow.getNameOfUser());//obtiene el nombre del cliente a buscar
+		client.send(clientWindow.getNameOfFile()); // obtiene el  nombre del archov a enviar
+		client.send(client.getName());//obtiene el nombre del que pide la info
+		client.setTimeInit(client.getTime());
+	}
+
 	private void serverDown() throws IOException {
 		clientWindow.ocultPop();
 		client.send(ConstantsUI.SERVER);//envia la peticion al servidor para que busque
 		client.send(clientWindow.getNameOfUser());//obtiene el nombre del cliente a buscar
 		client.send(clientWindow.getNameOfFile()); // obtiene el  nombre del archov a enviar
-//		client.send(clientWindow.getInfo());//obtiene el nombre del que pide la info
 		client.send(client.getName());//obtiene el nombre del que pide la info
+		client.setTimeInit(client.getTime());
 	}
 
 	private void add() throws Exception {

@@ -25,6 +25,9 @@ public class ClientConnections extends Connection{
 			case ConstantsUI.SERVER:
 				getFileOfServer();
 				break;
+			case ConstantsUI.CLIENT:
+				getFileOfUser();
+				break;
 			case ConstantsUI.FILE_USER:
 				sendFileToUser();
 				break;
@@ -50,6 +53,10 @@ public class ClientConnections extends Connection{
 
 	private void getFileOfServer() throws IOException {
 		Server.search(readResquest(), readResquest(), readResquest());
+	}
+
+	private void getFileOfUser() throws IOException {
+		Server.searchU(readResquest(), readResquest(), readResquest());
 	}
 
 	private void sendMessage() {

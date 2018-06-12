@@ -15,6 +15,10 @@ public abstract class MyThread implements Runnable{
 		this.isRunning = true;
 	}
 
+	public double getTime() {
+		return System.currentTimeMillis();
+	}
+	
 	@Override
 	public void run() {
 		while (isRunning) {
